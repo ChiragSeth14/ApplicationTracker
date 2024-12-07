@@ -62,9 +62,9 @@ app.post('/signup', async (req, res) => {
         const token = jwt.sign({ email: newUser.email, id: newUser.user_id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         console.log("Signup successful, token generated:", token);
-        res.status(201).json({ 
-            message: "Signup Successful", 
-            token, 
+        res.status(201).json({
+            message: "Signup Successful",
+            token,
             user: {
                 id: newUser.user_id,
                 email: newUser.email,
@@ -301,5 +301,5 @@ app.delete('/applications/:id', authenticateToken, async (req, res) => {
 
 const port = 3000;
 app.listen(port, () => {
-   console.log(`Server is running on Port: ${port}`);
+    console.log(`Server is running on Port: ${port}`);
 });

@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.send('Hello, Node.js!');
+    res.send('Welcome to Application Tracker!');
 })
 
 function authenticateToken(req, res, next) {

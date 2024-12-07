@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API from '../services/api';
-
+import axios from 'axios';
 function Signup() {
     const [formData, setFormData] = useState({ email: '', password: '', username: '', goal: '' });
     const navigate = useNavigate();
@@ -9,11 +8,13 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await API.post('/signup', formData);
-            alert('Signup successful!');
-            navigate('/');
+            const { data } = await axios.post('http://localhost:3000/signup', formData);
+            localStorage.setItem('token', data.token);
+            alert('Login successful!');
+            navigate('/login');
         } catch (error) {
-            alert(error.response.data.message || 'Error signing up.');
+            console.error('Error details:', error);
+            alert(error.response?.data?.message || 'An error occurred. Please try again.');
         }
     };
 
@@ -32,6 +33,9 @@ function Signup() {
                 </div>
             ))}
             <button type="submit">Signup</button>
+            <button onClick={() => navigate('/login')} style={{ marginTop: '10px' }}>
+                Back to Login
+            </button>
         </form>
     );
 }

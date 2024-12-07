@@ -1,33 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import API from '../services/api';
+import axios from 'axios';
 
 function Dashboard() {
     const [applications, setApplications] = useState([]);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchApplications = async () => {
             try {
-                const { data } = await API.get('/applications');
-                setApplications(data);
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('User not authenticated. Redirecting to login.');
+                    navigate('/login');
+                    return;
+                }
+
+                const { data } = await axios.get('http://localhost:3000/applications', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                setApplications(data.applications);
             } catch (error) {
-                alert('Error fetching applications.');
+                console.error('Error fetching applications:', error);
+                setError(
+                    error.response?.data?.message || 'Failed to fetch applications. Please try again.'
+                );
             }
         };
 
         fetchApplications();
-    }, []);
+    }, [navigate]);
 
     const handleDelete = async (id) => {
         try {
-            await API.delete(`/applications/${id}`);
-            setApplications(applications.filter((app) => app.id !== id));
-            alert('Application deleted.');
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('User not authenticated.');
+                navigate('/login');
+                return;
+            }
+
+            await axios.delete(`http://localhost:3000/applications/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            setApplications(applications.filter((app) => app.application_id !== id));
+            alert('Application deleted successfully.');
         } catch (error) {
-            alert('Error deleting application.');
+            console.error('Error deleting application:', error);
+            alert(error.response?.data?.message || 'Failed to delete the application.');
         }
     };
+
+    if (error) {
+        return <div style={{ color: 'red' }}>{error}</div>;
+    }
 
     return (
         <div>
@@ -43,17 +76,27 @@ function Dashboard() {
                     </tr>
                 </thead>
                 <tbody>
-                    {applications.map((app) => (
-                        <tr key={app.id}>
-                            <td>{app.company_name}</td>
-                            <td>{app.position}</td>
-                            <td>{app.status}</td>
-                            <td>
-                                <Link to={`/application/${app.id}`}>Edit</Link>
-                                <button onClick={() => handleDelete(app.id)}>Delete</button>
+                    {applications.length > 0 ? (
+                        applications.map((app) => (
+                            <tr key={app.application_id}>
+                                <td>{app.company_name}</td>
+                                <td>{app.position}</td>
+                                <td>{app.status}</td>
+                                <td>
+                                    <Link to={`/application/${app.application_id}`}>Edit</Link>
+                                    <button onClick={() => handleDelete(app.application_id)}>
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="4" style={{ textAlign: 'center' }}>
+                                No applications found.
                             </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
             <button onClick={() => navigate('/progress-analytics')}>Get Progress Analytics</button>

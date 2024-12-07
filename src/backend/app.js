@@ -2,10 +2,12 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const cors = require('cors')
 const client = require('./database');
 const app = express()
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Hello, Node.js!');
@@ -170,9 +172,9 @@ app.get('/applications', authenticateToken, async (req, res) => {
         `;
         const result = await client.query(query, [user_id]);
 
-        if (result.rows.length === 0) {
-            return res.status(404).json({ message: "No applications found for this user" });
-        }
+        // if (result.rows.length === 0) {
+        //     return res.status(404).json({ message: "No applications found for this user" });
+        // }
 
         res.status(200).json({
             message: "Applications fetched successfully",

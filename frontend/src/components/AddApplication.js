@@ -20,7 +20,7 @@ function AddApplication() {
         try {
             const token = localStorage.getItem('token'); // Get the token from localStorage
             if (!token) {
-                alert('User not authenticated. Redirecting to login.');
+                // alert('User not authenticated. Redirecting to login.');
                 navigate('/login');
                 return;
             }
@@ -29,13 +29,13 @@ function AddApplication() {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            alert('Application added successfully!');
+            // alert('Application added successfully!');
             navigate('/dashboard');
         } catch (error) {
             console.error('Error adding application:', error);
-            alert(
-                error.response?.data?.message || 'Failed to add application. Please try again.'
-            );
+            // alert(
+            //     error.response?.data?.message || 'Failed to add application. Please try again.'
+            // );
         }
     };
     const dropdownStyle = {

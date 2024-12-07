@@ -38,7 +38,7 @@ function UpdateApplicationStatus() {
         try {
             const token = localStorage.getItem('token'); // Get authentication token
             if (!token) {
-                alert('User not authenticated. Redirecting to login.');
+                // alert('User not authenticated. Redirecting to login.');
                 navigate('/login');
                 return;
             }
@@ -53,11 +53,11 @@ function UpdateApplicationStatus() {
                 }
             );
 
-            alert(data.message || 'Application status updated successfully!');
+            // alert(data.message || 'Application status updated successfully!');
             navigate('/dashboard'); // Redirect to dashboard
         } catch (error) {
             console.error('Error updating application status:', error);
-            alert(error.response?.data?.message || 'Failed to update application status.');
+            // alert(error.response?.data?.message || 'Failed to update application status.');
         }
     };
 

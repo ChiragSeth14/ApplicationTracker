@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import styles from './Dashboard.module.css';
 
 function Dashboard() {
     const [applications, setApplications] = useState([]);
@@ -12,7 +13,6 @@ function Dashboard() {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    alert('User not authenticated. Redirecting to login.');
                     navigate('/login');
                     return;
                 }
@@ -39,7 +39,6 @@ function Dashboard() {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('User not authenticated.');
                 navigate('/login');
                 return;
             }
@@ -51,10 +50,8 @@ function Dashboard() {
             });
 
             setApplications(applications.filter((app) => app.application_id !== id));
-            alert('Application deleted successfully.');
         } catch (error) {
             console.error('Error deleting application:', error);
-            alert(error.response?.data?.message || 'Failed to delete the application.');
         }
     };
 
@@ -63,43 +60,62 @@ function Dashboard() {
     }
 
     return (
-        <div>
-            <h2>Dashboard</h2>
-            <button onClick={() => navigate('/add-application')}>Add a New Application</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Company</th>
-                        <th>Position</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {applications.length > 0 ? (
-                        applications.map((app) => (
-                            <tr key={app.application_id}>
-                                <td>{app.company_name}</td>
-                                <td>{app.position}</td>
-                                <td>{app.status}</td>
-                                <td>
-                                    <Link to={`/application/${app.application_id}`}>Edit</Link>
-                                    <button onClick={() => handleDelete(app.application_id)}>
-                                        Delete
-                                    </button>
+        <div className={styles.dashboardContainer}>
+            {/* Header Section */}
+            <div>
+                <h2>Dashboard</h2>
+                <button
+                    onClick={() => navigate('/add-application')}
+                    className={styles.addButton}
+                >
+                    Add a New Application
+                </button>
+            </div>
+
+            {/* Table Section */}
+            <div className={styles.tableContainer}>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Position</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {applications.length > 0 ? (
+                            applications.map((app) => (
+                                <tr key={app.application_id}>
+                                    <td>{app.company_name}</td>
+                                    <td>{app.position}</td>
+                                    <td>{app.status}</td>
+                                    <td >
+                                        <Link to={`/application/${app.application_id}`}>Edit</Link>
+                                        <button className={styles.actions} onClick={() => handleDelete(app.application_id)}>
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" style={{  textAlign: 'center' }}>
+                                    No applications found.
                                 </td>
                             </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="4" style={{ textAlign: 'center' }}>
-                                No applications found.
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-            <button onClick={() => navigate('/progress-analytics')}>Get Progress Analytics</button>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* Progress Button */}
+            <button
+                onClick={() => navigate('/progress-analytics')}
+                className={styles.progressButton}
+            >
+                Get Progress Analytics
+            </button>
         </div>
     );
 }

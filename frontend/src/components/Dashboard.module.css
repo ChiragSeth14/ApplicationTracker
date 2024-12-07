@@ -1,0 +1,96 @@
+.dashboardContainer {
+    width: 90%;
+    margin: 20px auto;
+    position: relative; /* Allow absolute positioning for child elements */
+}
+
+.tableContainer {
+    margin-top: 50px;
+}
+
+table {
+    width: 100%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
+}
+
+table th {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+table td {
+    padding: 10px 15px;
+    text-align: left;
+}
+
+table tr:hover {
+    background-color: #f4f4f4;
+}
+
+/* Position the Add button in the top-right corner */
+.addButton {
+    position: absolute;
+    width:auto;
+    top: 10px;
+    right: 10px; /* Top-right alignment */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+.addButton:hover {
+    background-color: #1e8449;
+}
+
+/* Adjust Progress Button size dynamically */
+.progressButton {
+    margin: 30px auto;
+    display: block;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: fit-content; /* Button width adjusts based on text size */
+    text-align: center;
+}
+
+.progressButton:hover {
+    background-color: #2a80b9;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.actions button,
+.actions a {
+    background-color: #e74c3c;
+    color: white;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.actions button:hover,
+.actions a:hover {
+    background-color: #c0392b;
+}

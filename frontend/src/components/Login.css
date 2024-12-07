@@ -14,7 +14,21 @@ input {
     border-radius: 8px;
     margin-top: 10px;
 }
+/* Specific styling for the Signup button */
+.signupButton {
+    background: none;
+    border: none;
+    color: #3498db;
+    text-decoration: underline;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0; /* Remove padding for underline text appearance */
+}
 
+.signupButton:hover {
+    color: #2a80b9;
+    text-decoration: none; /* Remove underline on hover */
+}
 button {
     background-color: #ff6f61;
     font-size: 1.2rem;

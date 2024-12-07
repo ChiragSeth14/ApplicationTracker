@@ -14,7 +14,7 @@ function ProgressAnalytics() {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    alert('User not authenticated. Redirecting to login.');
+                    // alert('User not authenticated. Redirecting to login.');
                     return;
                 }
 
@@ -26,7 +26,7 @@ function ProgressAnalytics() {
                 setAnalytics(data.analytics); // Update analytics state with response
             } catch (error) {
                 console.error('Error fetching analytics:', error);
-                alert('Failed to fetch progress analytics.');
+                // alert('Failed to fetch progress analytics.');
             }
         };
 

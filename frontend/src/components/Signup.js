@@ -10,11 +10,11 @@ function Signup() {
         try {
             const { data } = await axios.post('http://localhost:3000/signup', formData);
             localStorage.setItem('token', data.token);
-            alert('Login successful!');
+            // alert('Login successful!');
             navigate('/login');
         } catch (error) {
             console.error('Error details:', error);
-            alert(error.response?.data?.message || 'An error occurred. Please try again.');
+            alert(error.response?.data?.message || 'Please try again.');
         }
     };
 
@@ -33,8 +33,17 @@ function Signup() {
                 </div>
             ))}
             <button type="submit">Signup</button>
-            <button onClick={() => navigate('/login')} style={{ marginTop: '10px' }}>
-                Back to Login
+            <button onClick={() => navigate('/login')} style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#3498db',
+                    textDecoration: 'underline',
+                    fontSize: '1rem',
+                    cursor: 'pointer',
+                    marginTop: '10px',
+                    padding: '0',
+                }}>
+                 Back to Login
             </button>
         </form>
     );
